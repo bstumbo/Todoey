@@ -95,8 +95,6 @@ class TodoListViewController: UITableViewController {
     
     func saveItems() {
         
-        
-        
         do {
     
           try context.save()
