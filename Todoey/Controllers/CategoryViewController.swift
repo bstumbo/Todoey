@@ -7,9 +7,11 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryViewController: UITableViewController {
+    
+    let realm = try! Realm()
 
     var categories = [Category]()
     
@@ -54,10 +56,12 @@ class CategoryViewController: UITableViewController {
     
     //MARK: - Data Manulation Methods
     
-    func saveCategories() {
+    func save(category: Category) {
         
         do {
-            try context.save()
+            try realm.write {
+                realm.add(category)
+            }
         } catch {
             print("Error encoding context, \(error)")
         }
@@ -91,13 +95,13 @@ class CategoryViewController: UITableViewController {
             
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             
-            let newCategory = Category(context: self.context)
+            let newCategory = Category()
             newCategory.name = textField.text!
            
             
             self.categories.append(newCategory)
             
-            self.saveCategories()
+            self.save(category: newCategory)
             
         }
         
